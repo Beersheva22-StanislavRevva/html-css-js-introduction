@@ -2,17 +2,18 @@
     height: 12.5vh;
     display:flex;
     flex-direction: row;
+    
 }
 .black-cell{
     height: 12.5vh;
-    width: 12.5vw;
+    width: 12.5vh;
     background-color: black;
     display: flex;
     flex-direction: row;
     }
 .white-cell{
     height: 12.5vh;
-    width: 12.5vw;
+    width: 12.5vh;
     background-color: white;
     display: flex;
     flex-direction: row;
