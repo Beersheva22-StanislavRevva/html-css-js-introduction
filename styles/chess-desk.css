@@ -1,20 +1,25 @@
 .canvas {
     height: 12.5vh;
-    display:flex;
+    width: 100vh;
+    display: flex;
     flex-direction: row;
-    
+ }
+ .cell{
+    height: 12.5vh;
+    width: 12.5vh;
+    display: flex;
+    flex-direction: row;
 }
 .black-cell{
-    height: 12.5vh;
-    width: 12.5vh;
     background-color: black;
-    display: flex;
-    flex-direction: row;
-    }
+}
 .white-cell{
-    height: 12.5vh;
-    width: 12.5vh;
-    background-color: white;
+     background-color: white;
+}
+.body{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
