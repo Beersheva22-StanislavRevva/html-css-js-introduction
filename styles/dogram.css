@@ -1,3 +1,122 @@
-.body{
-    
+:root{
+    --thumbnails-img-width: 10vw;
+    --thumbnails-img-height: calc(var(--thumbnails-img-width*0.85));
+    --thumbnails-title-height: calc(var(--thumbnails-img-height*0.3))
+}
+body{
+    display: flex;
+    flex-direction: column;
+    background-color: whitesmoke;
+    margin: 0;
+}
+header{
+    text-align: center;
+    background-color: lightgray;
+    border-radius: 10%;
+
+}
+.logo{
+    font-size: 1.6em;
+    margin-top: 1hv;
+    margin-bottom: 1hv;
+    padding: 0.vh;
+    margin: 1vh;
+}
+main{
+    display: flex;
+    flex-direction: column;
+}
+.details-section{
+    margin-top:0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.details-image {    
+    width: 40vh;
+    border-radius: 10%;
+}
+.details-container{
+    padding-top: 3vh;
+    position: relative;
+}
+.details-title{
+    background-color: transparent;
+    font-weight: bold;
+    font-size: 1.4em;
+    position: absolute;
+    left: 30vw;
+    bottom: 2vh;
+}
+.thumbnails-list{
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 50vh;
+    overflow-y:auto;
+    padding-left: 4vw;
+    padding-right: 4vw;
+    justify-content: start;
+    /* gap:1vw; */
+
+}
+.thumbnails-item{
+    /* margin-top: 2vh; */
+    border: solid 1px grey  ;
+    border-radius: 15%;
+    max-width: var(--thumbnails-img-width);
+    min-width: var(--thumbnails-img-width);
+    min-height: calc(var(--thumbnails-img-height) + var(--thumbnails-title-height));
+    overflow: hidden;
+}
+.thumbnails-image{
+    display: block;
+    width: var(--thumbnails-img-width);
+    height: var(--thumbnails-img-height);
+}
+
+.thumbnails-title{
+    display: block;
+    text-align: center;
+    background-color: gray;
+    color: white;
+    font-weight: bold;
+    height: var(--thumbnails-title-height);
+}
+@media(min-width: 960px){ 	
+    .details-image{
+        width: 65vw;
+        border-radius: 10%;  
+    }
+    .thumbnails-list{
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .details-title{
+        font-size: 2.2em;
+        left: 25vw;
+        bottom: 2vh;
+    }
+}
+@media(min-width: 1600px){ 	   
+    header{
+        border-radius: 2%;
+    }
+    .logo{
+         font-size: 3em;
+    }
+    .details-image{
+        width: 40vw;
+        border-radius: 10%;  
+    }
+    .details-title{
+    font-size: 2.5em;
+    left: 14vw;
+    bottom: 2vh;
+    }
+    .thumbnails-list{
+        margin: 0;
+        padding-left: 6vw;
+                
+    }
 }
