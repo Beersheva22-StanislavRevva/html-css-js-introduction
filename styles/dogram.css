@@ -25,7 +25,9 @@ header {
 
 }
 .logo {
-    font-size: 1.6em;
+    font-size: 2em;
+    color: rgb(86, 85, 85);
+    font-weight: 800;
     margin-top: 1vh;
     margin-bottom: 1vh;
     text-transform: uppercase;
@@ -42,6 +44,11 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: 5s;
+}
+.is-point {
+ transform: scale(0.01);
+ transition: 0s;
 }
 .details-image {
     width: 65vw;
@@ -52,14 +59,14 @@ main {
     position: relative;
 }
 .details-title {
-    background-color: beige;
-    font-style: italic;
-    font-size: 2em;
+    background-color: transparent;
+    color: rgb(86, 85, 85);
+    font-size: 1.8em;
     position: absolute;
-    left: -6vw;
+    left: 6vw;
     bottom: 2vh;
     font-family: Arial;
-    
+  
 }
 .thumbnails-list {
     list-style: none;
@@ -77,7 +84,7 @@ main {
     text-decoration: none;
 }
 .thumbnails-item {
-    border: solid 1px blue;
+    border: solid 1px gray;
     border-radius: 25%;
     max-width: var(--thumbnails-img-width);
     min-width: var(--thumbnails-img-width);
@@ -87,7 +94,7 @@ main {
 
 }
 .thumbnails-item:hover {
-    border-color: green;
+    border-color: antiquewhite;
     transform: scale(1.1);
     
 }
@@ -99,9 +106,22 @@ main {
 .thumbnails-title {
     display: block;
     text-align: center;
-    background-color: burlywood;
+    background-color: antiquewhite;
     height: var(--thumbnails-title-height)
+}
+.hidden .details-section{
+    display: none;
+}
 
+.hide-button {
+    color: gray;
+    border-color: transparent;
+    background-color: transparent;
+    font-size: 1em;
+    font-weight: bold;
+    position: absolute;
+    top:0.02vh;
+    right: 0.02vh;
 }
 @media (min-width: 650px) {
     :root {
@@ -115,6 +135,11 @@ main {
         flex-direction: column;
         justify-content: start;
         margin-left:5vw;
+    }
+    .hidden .thumbnails-list{
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: 1vw;
     }
     main {
         flex-direction: row-reverse;
@@ -134,8 +159,6 @@ main {
     .details-title {
         font-size: 2em;
     }
-        
-
 }
 @media(min-width: 1000px) {
     .details-image {
