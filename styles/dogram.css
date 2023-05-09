@@ -39,6 +39,14 @@ main {
     display: flex;
     flex-direction: column;
 }
+main.hidden {
+    --thumbnails-img-width: 40vw;
+    --thumbnails-img-height: calc(var(--thumbnails-img-width) * 0.79);
+    --thumbnails-title-height: calc(var(--thumbnails-img-height) * 0.3)
+}
+.hidden .thumbnails-title {
+    font-size: 1.5em;
+}
 .details-section {
     margin-top: 7vh;
     display: flex;
@@ -129,6 +137,7 @@ main {
         --thumbnails-img-height: calc(var(--thumbnails-img-width) * 0.75);
         --thumbnails-title-height: calc(var(--thumbnails-img-height) * 0.25)
     }
+    
     .thumbnails-list {
         flex-wrap: nowrap;
         max-height: 80vh;
@@ -136,6 +145,10 @@ main {
         justify-content: start;
         margin-left:5vw;
     }
+    .thumbnails-title{
+        font-size: 0.75em;
+    }
+
     .hidden .thumbnails-list{
         flex-wrap: wrap;
         flex-direction: row;
@@ -144,7 +157,15 @@ main {
     main {
         flex-direction: row-reverse;
         justify-content: start;
-    } 
+    }
+    main.hidden {
+        --thumbnails-img-width: 10vw;
+        --thumbnails-img-height: calc(var(--thumbnails-img-width) * 0.75);
+    }
+    .hidden .thumbnails-title {
+        --thumbnails-title-height: calc(var(--thumbnails-img-height) * 0.25);
+        font-size: 1em;
+    }
     .details-image {
         width: 50vw;
         height: 40vw;
@@ -157,8 +178,9 @@ main {
         overflow: hidden
     }
     .details-title {
-        font-size: 2em;
+        font-size: 1em;
     }
+  
 }
 @media(min-width: 1000px) {
     .details-image {
