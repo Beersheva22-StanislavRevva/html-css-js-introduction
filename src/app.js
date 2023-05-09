@@ -62,7 +62,7 @@
 //console.log((255).toString(16));
 //console.log(("A" + (+"A") + "A" + "S").toLowerCase());
 
-console.log(a = (456789).toString(16));
+console.log(a = (-123456789).toString(16));
 function myToStringInteger(number, radix) {
     //TODO: number - any number
     //radix - computation base, if radix < 2 || radix > 36 then radix = 10
@@ -79,18 +79,19 @@ function myToStringInteger(number, radix) {
     if (radix < 2 || radix > 36) {
         radix = 10;
     }
-    while (Math.round(number) > radix) {
-        remainder = Math.floor(number % radix);
-        if (remainder > 9) { 
+
+    do {
+        remainder = Math.floor(Math.floor(number) % radix);
+        if (remainder > 9) {
             remainder = String.fromCharCode(remainder + 87);
         }
         finalString = remainder + finalString;
         number = Math.floor(number / radix);
-    }
-    if (flag == 0){ 
-    return (number + finalString);
+    } while (number > 0);
+    if (flag == 0) {
+        return (finalString);
     } else {
-        return ("-" + number + finalString);
+        return ("-" + finalString);
     }
 }
-console.log(myToStringInteger(0, 16));
+console.log(myToStringInteger(-123456789, 16));
