@@ -70,12 +70,11 @@ let posSrc = 2;
 let length = 2;
 let posDst = 5;
 function arraycopy(src, posSrc, dst, length, posDst = 0) {
-dst.splice(posDst, 0, ...src.slice(posSrc, (posSrc + length))); 
+dst.splice(posDst, length, ...src.slice(posSrc, (posSrc + length))); 
 }
-console.log(`*arraycopy* source array: ${src}, source pos.: ${posSrc}, target array: ${dst}, length: ${length},
-target pos: ${posDst}`);
+// console.log(`*arraycopy* source array: ${src}, source pos.: ${posSrc}, target array: ${dst}, length: ${length},target pos: ${posDst}`);
 arraycopy(src, posSrc, dst, length, posDst);
-console.log(`result: ${dst}`);
+// console.log(`result: ${dst}`);
 
 array = [10, 20, -70, 100, 6, -10, 0];
 position = 2;
@@ -85,6 +84,32 @@ function moveElement(array, position, shift) {
     let newPosition = (position + shift) < 0 ? 0 : (position + shift);
     array.splice(newPosition, 0 , array.splice(position, 1)[0]);
 }
-console.log(`*moveElement* array: ${array}, position: ${position}, shift: ${shift}`);
+// console.log(`*moveElement* array: ${array}, position: ${position}, shift: ${shift}`);
 moveElement(array, position, shift);
-console.log(`result: ${array}`);
+// console.log(`result: ${array}`);
+
+//reduce
+//console.log([1,2,3].reduce((res, cur) => res + cur, 10));
+//find minimal element
+// console.log([1,2,3].reduce((res, cur) => {
+//     if (cur < res) {
+//         return cur;
+//     } else {
+//         return res;
+//     };    
+// }));
+// console.log([1,2,3].reduce((res, cur) => cur < res ? cur : res));
+//array - first min, second max
+// ar = [1,2,3,4,5];
+// accum = [];
+// console.log(ar.reduce((res, cur) => {
+//     if (cur < accum[0]) {
+//        accum[0] = cur;
+//     } else {
+//         accum[1] = cur;
+//     }
+//         return accum;
+//     ;  
+// }, ar[0], ar[0]));
+const ar10 = [2, 3, 123, 200, 99, -5];
+console.log(ar10.sort((a, b) => a - b));
