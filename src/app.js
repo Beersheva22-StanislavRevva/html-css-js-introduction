@@ -36,14 +36,11 @@ function getListItems(array) {
     return array.map(v => `<li style="width:30px; height:30px; border: solid 1px gray;
     background-color : ${v? 'black':'white'}  "></li>`).join('');
 }
-function getSquares(array) {
-   
-}
+
 nNumbers = 10;
 min = 0;
 max = 2;
 array = getArrayRandomIntNumbers(nNumbers,min,max);
-getOrderedList(array);
 //bodyId.innerHTML = getOrderedList(array);
 function getMatrixRandomIntNumbers(rows, columns, min, max){
     let res = [];
@@ -51,4 +48,43 @@ function getMatrixRandomIntNumbers(rows, columns, min, max){
     res = [...res];
     return res.map(n => getArrayRandomIntNumbers(columns, min, max));
 }
-console.log(getMatrixRandomIntNumbers(3,3,1,10));
+//splice method for updating array
+let arS = [10, 20, -70, 100, 6, -10, 0];
+const arI = [1, 2, 3];
+let index = arS.indexOf(-70);
+arS.splice(index + 1, 0 , ...arI);
+//console.log(arS);
+//console.log(arS.splice(index + 1, 3));
+//console.log(arS.slice(index + 1, index + 4));
+//console.log(arS);
+let indexFirstNegative = arS.findIndex(v => v < 0);
+//console.log(indexFirstNegative);
+arS = arS.filter( v => v > 0 );
+//console.log(arS);
+// console.log(arS.every(v => v > 0));
+// console.log(arS.some(v => v < 0));
+
+let src = [10, 20, -70, 100, 6, -10, 0];
+let dst = [1, 2, 3, 4, 5];
+let posSrc = 2;
+let length = 2;
+let posDst = 5;
+function arraycopy(src, posSrc, dst, length, posDst = 0) {
+dst.splice(posDst, 0, ...src.slice(posSrc, (posSrc + length))); 
+}
+console.log(`*arraycopy* source array: ${src}, source pos.: ${posSrc}, target array: ${dst}, length: ${length},
+target pos: ${posDst}`);
+arraycopy(src, posSrc, dst, length, posDst);
+console.log(`result: ${dst}`);
+
+array = [10, 20, -70, 100, 6, -10, 0];
+position = 2;
+shift = 2;
+function moveElement(array, position, shift) {
+    //example: ar:[1, 2, 3, 4, 5] ; moveElement(ar, 2, 1) => [1,2,4,3,5]
+    let newPosition = (position + shift) < 0 ? 0 : (position + shift);
+    array.splice(newPosition, 0 , array.splice(position, 1)[0]);
+}
+console.log(`*moveElement* array: ${array}, position: ${position}, shift: ${shift}`);
+moveElement(array, position, shift);
+console.log(`result: ${array}`);
