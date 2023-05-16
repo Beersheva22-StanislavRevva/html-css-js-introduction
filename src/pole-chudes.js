@@ -35,7 +35,7 @@ function game() {
 function fillSquares (word) {
     word = word.toUpperCase();
     divArray.forEach(element, index => element.innerHTML = wordArray[index]);
-    
+
     // for (let i = 0; i < word.length; i++) {
     // array[i].innerHTML = word[i];
     // if (givenWord.includes(word[i])) {
@@ -45,8 +45,8 @@ function fillSquares (word) {
     //     }
     // }
         
-    }
-}
+ }
+
 function startGame() {
     count = 0;
     wordCount = wordCount < givenWords.length ? wordCount : 0;
