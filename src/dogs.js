@@ -12,6 +12,8 @@ for (let i = 0; i < thumbnailsAncors.length; i++) {
     }
     );
 }
+thumbnailsAncors.forEach(anchor => anchor
+.addEventListener('click', setDetails.bind(undefined,anchor)));
 
 function setDetails(anchor) {
     showDetails();
