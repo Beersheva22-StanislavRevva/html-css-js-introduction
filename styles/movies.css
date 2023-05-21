@@ -80,7 +80,7 @@ main.hidden {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    max-height: 60vh;
+    /* max-height: 60vh; */
     overflow-y: auto;
     justify-content: space-around;
     padding-left: 20px;
@@ -96,7 +96,8 @@ main.hidden {
     border-radius: 25%;
     max-width: var(--thumbnails-img-width);
     min-width: var(--thumbnails-img-width);
-    min-height: calc(var(--thumbnails-img-height) + var(--thumbnails-title-height));
+    /* min-height: calc(var(--thumbnails-img-height) + var(--thumbnails-title-height)); */
+    max-height: var(--thumbnails-img-height);
     margin-top: 3vh;
     overflow: hidden;
 
@@ -133,7 +134,7 @@ main.hidden {
 }
 @media (min-width: 650px) {
     :root {
-        --thumbnails-img-width: 12vw;
+        --thumbnails-img-width:10vw;
         --thumbnails-img-height: calc(var(--thumbnails-img-width) * 0.75);
         --thumbnails-title-height: calc(var(--thumbnails-img-height) * 0.25)
     }
