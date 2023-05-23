@@ -1,130 +1,60 @@
-class Rectangle {
-    #width;
-    #height;
-    constructor(width, height) {
-        this.#width = width;
-        this.#height = height;
-    }
-        /*this.square = function () {
-            return this.width * this.heigt;
-        }
-        this.perimeter = function() {
-            return 2 * (this.width + this.heigt);
-        }*/
+//what's wrong
+function sleep (timeout) {
+    return new Promise(resolve => setTimeout(() => resolve(), timeout))
     
-    square() {
-        return this.#width * this.#height;
-    }
-    perimeter() {
-        return 2 * (this.#width + this.#height);
-    }
-}
-const rectangle = new Rectangle(3, 4);
-//console.log(rectangle.square(), rectangle.perimeter());
-let c;
-//console.log(rectangle.width, rectangle.height);
-
-class Square extends Rectangle {
-    constructor(width) {
-        super (width, width);
-    }
-}
-const square = new Square(10);
-//console.log(square.perimeter());
-// Array.prototype.map = function() {
-//     console.log(this);
-//     let ar = [];
-//     for(let i = 0; i < this.length; i++) {
-//        ar[i] = this[i]*10;
-// }
-//  return ar;
-// };
-// const ar = [1, 2, 3];
-// console.log(ar.map());
-
-// Array.prototype.myForEach = function (func) {
-//      for(let i = 0; i < this.length; i++) {
-//        func(this[i], i, this);
-//     }
-// }
-// let ar = [1, 2, 3];
-// //ar.myForEach((x, index) => console.log(x + 3));
-// //console.log(ar);
-
-// Array.prototype.myMap = function (func) {
-//     let arrayCopy = [];
-//     for(let i = 0; i < this.length; i++) {
-//        arrayCopy.push(func(this[i], i, this));
-//     }
-//     return arrayCopy;
-// }
-// ar = [1, 2, 3];
-// //console.log(ar.myMap((x, index) => (x * 3) + index));
-
-// Array.prototype.myFilter = function (func) {
-//     let arrayCopy = [];
-//     for(let i = 0; i < this.length; i++) {
-//         if (func(this[i], i)) {
-//             arrayCopy.push(this[i]);
-//         }
-//      }
-//      return arrayCopy;
-// }
-// ar = [1, 2, 3];
-// //console.log(ar.myFilter(x => x > 1));
-
-// Array.prototype.myReduce = function (func, val) { 
-//     let res = val;
-//     let i = 0;
-//     if (val == undefined) {
-//         res = this[0];
-//         i = 1;
-//     }
-//     if (res != undefined) {
-//         for(i; i < this.length; i++) {
-//             res = func(res, this[i], i , this);
-//         }
-//     }
-//     return res;
-// }
-// ar = [1, 2, 3];
-// //console.log(ar.myReduce((a, e) => a - e));
-
-// class Deferred {
     
-//     then(charIndex) {
-//         return String.fromCharCode(parseInt(charIndex) + 96);
-//     }
-//     resolve(string) {
-//         return string;
-//     }
-// }
-// let d = new Deferred();
-// console.log(d.then('1'), d.then('2'), d.then('3'));
-// console.log(d.resolve('hallo'));
-
-function fun(... params) {
-    console.log(this);
-    params.forEach(p => console.log(p))
 }
-const obj = {f : function(...params){console.log(this)}};
-fun(1, 2);
-//console.log(obj.fun(1, 2));
-
-Function.prototype.MyBind = function (context,...bidedArgs){
-    return (...args) => {
-        context.bindedFunc = this;
-        const res = context.bindedFunc(...bidedArgs,...args);
-        delete context.bindedFunc;
-        return res;
+function f1() {
+    console.log('f1 performed')
+}
+function f2() {
+    console.log('f2 performed')
+}
+function f3() {
+    console.log('f3 performed')
+}
+// const promise = sleep(2000);
+// promise.then(() => f1()).then(() => f2()).then(() => f3())
+function getId(predicate) {
+    const ids = [123, 124, 125];
+    const index = ids.findIndex(predicate);
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            return index < 0 ? reject('id not found') : resolve(ids[index])
+        }, 1000);
+    })
+}
+function getCar(id) {
+    const cars = {
+        '123': 'suzuki',
+        '124': 'hunday',
+        '125': 'honda'
     }
+    const car = cars[id];
+    return new Promise((resolve, reject) =>
+     setTimeout(() => car ? resolve(car) : reject('no car found'), 1000))
+
 }
-function getPoint(x, y) {
-    return {x , y};
+// function displayCar(predicate) {
+//     return getId(predicate)
+//     .then(id => getCar(id))
+//     .then(car => console.log(car))
+//     .catch(error => {
+//         console.log(error);
+//         //return 'mersedes';   
+//     })
+// }
+
+async function displayCar(predicate) {
+   await sleep(20000);
+   try {
+    const id = await getId(predicate);
+    const car = await getCar(id);
+    console.log(car);
+} catch (error) {
+    console.log(error);
+    //return 'mersedes'
 }
-function displayPoint(z, t,) {
-    console.log(`x = ${this.x}, y = ${this.y}, z = ${this.z}, t = ${this.t} `)
 }
- const displayPointBind = displayPoint().MyBind(getPoint(1,2));
- displayPointBind();
- 
+displayCar(id => id == 123).then(() => console.log('thanks and bye'));
+console.log('waitng for data...');
