@@ -25,10 +25,11 @@ export default class DataGrid {
     }
 
     fillData(rowsData) {
-        this.#tBodyElement.innerHTML = rowsData.map(element => {
-           return `<tr>
-            ${Object.values(element).map(value => (`<td>${value}</td>`)).join('')}
-            </tr>`
-            }).join('');
+        this.#tBodyElement.innerHTML = rowsData.map(rd => this.#getRow(rd)).join('');
+    }   
+    #getRow(obj) {
+        return `<tr>
+                ${this.#keys.map(key => `<td>${obj[key]}</td>`).join('')}
+                </tr>`    
     }
 }

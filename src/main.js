@@ -1,6 +1,8 @@
 import openMeteoConfig from './config/service-config.json' assert {type: 'json'};
 import OpenMeteoService from './service/OpenMeteoService.js';
 import DataGrid from './ui/DataGrid.js';
+import WeatherForm from './ui/WeatherForm.js';
+import {getEndDate} from './util/date-functions.js'
 //constants definition
 const columns = [
     { field: 'date', headerName: 'Date' },
@@ -8,27 +10,27 @@ const columns = [
     { field: 'temperature', headerName: 'Temperature' },
     { field: 'apparentTemperature', headerName: 'Fealt Temp' }
 ]
-//functions
-function getISODateStr(date) {
-    return date.toISOString().substring(0, 10)
-}
-function getEndDate(startDateStr, days) {
-    const date = new Date(startDateStr);
-    const endDate = new Date(date.setDate(date.getDate() + days));
-    return getISODateStr(endDate);
-}
 
-const fromFormData = {
-    city: "Rehovot",
-    startDate: getISODateStr(new Date()),
-    days: 1, hourFrom: 20, hourTo: 24
-};
 //objects
+const form = new WeatherForm("form-place",
+ Object.keys(openMeteoConfig.cities), openMeteoConfig.maxDays);
 const openMeteoService = new OpenMeteoService(openMeteoConfig.baseUrl);
 const table = new DataGrid("table-place", columns)
-const latLong = openMeteoConfig.cities[fromFormData.city];
-const { lat, long } = latLong;
 
-const { startDate, days, hourFrom, hourTo } = fromFormData
-openMeteoService.getTemperatures(lat, long, startDate, getEndDate(startDate, days),
-    hourFrom, hourTo).then(data => table.fillData(data));
+    async function run() {
+        while(true) {
+            const fromFormData = await form.getDataFromForm();
+            const { startDate, days, hourFrom, hourTo, city } = fromFormData;
+            const {lat, long} = openMeteoConfig.cities[city];
+            const temperatures = await openMeteoService.getTemperatures(lat, long, startDate, getEndDate(startDate, days),
+            hourFrom, hourTo);
+            table.fillData(temperatures);
+        }
+    }
+    run();
+
+
+
+
+
+
