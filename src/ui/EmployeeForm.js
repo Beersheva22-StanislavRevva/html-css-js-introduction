@@ -13,9 +13,7 @@ export default class EmployeeForm {
     #fillSection() {
         this.#parentElement.innerHTML =
         `<button id="button-id">Add random employee data</button>
-        <input type ="radio" id="radio-button-male" name ="gender"> Male
-        <input type ="radio" id="radio-button-female name ="gender"> Female
-        `
+         `
     }
     buttonHasPressed() {
         return new Promise(resolved => {

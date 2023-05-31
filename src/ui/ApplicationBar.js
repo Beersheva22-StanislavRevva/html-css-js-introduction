@@ -3,12 +3,14 @@ export default class ApplicationBar {
     #buttons
     #sectionElements
     #activeIndex
-    constructor(parentId, sections) {
+    #callbackFn
+    constructor(parentId, sections, callbackFn) {
        //section - array of objects
        //each object {title: string, id: strig} 
        this.#fillButtons(parentId, sections.map(s => s.title));
        this.#setSectionsElements(sections.map(s => s.id));
        this.#addListeners();
+       this.#callbackFn = callbackFn;
     }
     #fillButtons(parentId, titles) {
         const parentElement = document.getElementById(parentId);
@@ -31,6 +33,8 @@ export default class ApplicationBar {
             this.#sectionElements[index].hidden = false;
             this.#buttons[index].classList.add(ACTIVE);
             this.#activeIndex = index;
+            this.#callbackFn(index);
+            
         }
     }
 }
