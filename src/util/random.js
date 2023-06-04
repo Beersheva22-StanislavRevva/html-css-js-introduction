@@ -15,16 +15,20 @@ export function getRandomElement(array) {
     return array[getRandomInt(0, array.length)];
 }
 export function getRandomEmployee (minSalary, maxSalary, minYear, maxYear,
-    departments) {
+    departments, selectEmployee) {
     const gender = getRandomElement(['male','female']);
     const name = getRandomElement (gender == 'female' ? names.femaleNames :
     names.maleNames);
     const birthYear = getRandomInt(minYear,maxYear+1);
     const salary = getRandomInt(minSalary, maxSalary)*1000;
     const department = getRandomElement(departments);
+    selectEmployee = `<div class="radio-control-table">
+    <input id = "select-employee-id" type="radio" name="employee" value="" required unchecked>
+     <label for="mail-id"></label>    
+</div>`
     return /*getPromise(*/{
         name, birthYear, gender,
-        salary, department
+        salary, department, selectEmployee
     }/*, 2000)*/;
 function getPromise(state, timeout) {
     return new Promise ((resolve) => setTimeout(() => resolve(state),timeout));

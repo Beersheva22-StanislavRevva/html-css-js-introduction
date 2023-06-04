@@ -7,5 +7,6 @@
     "minYear" : 1950,
     "departments" : [
         "QA", "Development", "Audit", "Accounting", "Management", "Sales"
-    ] 
+    ],
+    "selectEmployee": "checkbox"
 }
