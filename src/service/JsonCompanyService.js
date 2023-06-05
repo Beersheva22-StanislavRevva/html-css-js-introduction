@@ -18,11 +18,11 @@ export default class JsonCompanyService {
         //     headers: {"Content-Type": "application/json"},
         //     body: JSON.stringify(employee)
         // }).then(response => response.json()), 150);
-        return fetch(URL, {
+        fetch(URL, {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(employee)
-        }).then(response => response.json());
+        }).then(response => response.json()).then(data => getPromise(data,150));
 
     }
     // #getId() {
@@ -46,14 +46,20 @@ export default class JsonCompanyService {
             field = 'age';
         }
         const statisticsObj = count(array, field, interval);
-        return getPromise(Object.entries(statisticsObj).map(e => {
+        // return getPromise(Object.entries(statisticsObj).map(e => {
+        //     const min = e[0] * interval;
+        //     const max = min + interval - 1;
+        //     return {min, max, count: e[1]};
+        // }), 1000)
+         return Object.entries(statisticsObj).map(e => {
             const min = e[0] * interval;
             const max = min + interval - 1;
             return {min, max, count: e[1]};
-        }), 1000)
+        });
     }
     getAllEmployees() {
-        return getPromise(fetch(URL).then(response => response.json()), 1000)
+        // return getPromise(fetch(URL).then(response => response.json()), 1000)
+        return fetch(URL).then(response => response.json());
     }
 }
 function getPromise(state, timeout) {

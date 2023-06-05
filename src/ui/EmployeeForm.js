@@ -50,6 +50,7 @@ export default class EmployeeForm {
             this.#dataObj.checkbox = 'check';                   
             //check input data here
             await submitFn(this.#dataObj);
+            this.#formElement.reset();
         }
     }
 }

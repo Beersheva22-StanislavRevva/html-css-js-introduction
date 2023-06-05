@@ -37,7 +37,8 @@ const statisticsColumns = [
 ]
 //objects
 const menu = new ApplicationBar("menu-place", sections, menuHandler);
-const companyService = new CompanyService();
+//const companyService = new CompanyService();
+const companyService = new JsonCompanyService();
 const employeeForm = new EmployeeForm("employees-form-place");
 const employeeTable = new DataGrid("employees-table-place", employeeColumns, ['Delete','Rewrite']);
 const ageStatistics = new DataGrid("age-statistics-place", statisticsColumns, []);
@@ -55,8 +56,9 @@ async function menuHandler(index) {
             break;
         }
         case 2: {
-            const ageStatisticsData = await action(companyService.
-                getStatistics.bind(companyService, age.field, age.interval));
+            const ageStatisticsData =
+                await action(companyService.
+                    getStatistics.bind(companyService, age.field, age.interval));
             ageStatistics.fillData(ageStatisticsData);
 
             const salaryStatisticsData =
@@ -81,5 +83,9 @@ function createRandomEmployees() {
     companyService.addEmployee(getRandomEmployee(minSalary, maxSalary, minYear,
         maxYear, departments, selectEmployee)));
 return Promise.all(promises);
+// return range(0, N_EMPLOYEES).map(() =>
+// companyService.addEmployee(getRandomEmployee(minSalary, maxSalary, minYear,
+//     maxYear, departments, selectEmployee)));;
+// 
 }
 action(createRandomEmployees);
