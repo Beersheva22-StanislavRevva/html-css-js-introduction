@@ -1,85 +1,85 @@
 .menu-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin-top: 5vw;
-
-  }
-  button{
-    width: 17vw;
-    height: 4vw;
-    font-size: large;
-    border-radius: 10%;
-    
-  }
-  .active {
-    color: rgb(106, 106, 106);
-    background-color: rgb(254, 217, 181);
-  }
-  .form-control {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    margin-top: 5vw;
-    max-width: 25vw;
-    margin-left: 9vw;
-    gap: 30px;
-  }
-  .radio-group{
-    font-size: large;
-    flex-direction: row;
-    gap:4vw;
-  }
-
-  @keyframes spinner {
-    from {background-color: white;}
-    to {background-color: black;}
-  }
-  .spinner {
-      width: 3vw;
-      height: 3vw;
-      background-color: rgb(165, 165, 165);
-    border: 1px solid black;
-    border-radius: 50%;
-      animation-name: spinner;
-      animation-duration: 1000ms;
-      animation-iteration-count: infinite;
-  
-    
-  }
-  #spinner-place {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .radio-group{
-    display: flex;
-    flex-direction: row;
-    
-  }
- table {
-  margin-top: 3vw;
-  margin-left: 20vw;
-  width: 60vw;
-  }
-  table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-  }
-  td,th {
-    text-align: center;
-  }
- #table-button-block{
-  margin-top: 5vw;
-  margin-left: 20vw;
   display: flex;
   flex-direction: row;
-  gap: 1vw;
- }
- .table-button{
-  width: 10vw;
-  height: 2vw;
-  font-size: small; 
- }
+  justify-content: space-around;
+}
+.active {
+  color: white;
+  background-color: blue;
+}
+@keyframes spinner {
+  from {background-color: white;}
+  to {background-color: black;}
+}
+.spinner {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+  border: 1px solid black;
+  border-radius: 50%;
+    animation-name: spinner;
+    animation-duration: 200ms;
+    animation-iteration-count: infinite;
+
   
+}
+#spinner-place {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.radio-group {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2vh;
+}
+
+form * {
+  margin-top: 2vh
+}
+[name] {
+  width: 25vw
+}
+[type="radio"] {
+  width: auto;
+  
+}
+.radio-control {
+  margin-right: 2vw;
+}
+th, td {
+  width: 10vw;
+  text-align: center;
+}
+table {
+ margin-top: 2vh;
+  width: 80%;
+  display:block;
+}
+thead {
+  margin-top: 2vh;
+  display: inline-block;
+  width: 80%;
+  height: 5vh;
+}
+tbody {
+  height: 50vh;
+  display: inline-block;
+  width: 100%;
+  overflow: auto;
+}
+caption {
+  font-weight: bold;
+}
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw
+}
+.statistic-tables {
+  margin-top: 4vh;
+  display: flex;
+  justify-content: center;
+}

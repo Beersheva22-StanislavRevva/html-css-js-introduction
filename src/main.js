@@ -1,14 +1,15 @@
 import CompanyService from "./service/CompanyService.js";
-import JsonCompanyService from "./service/JsonCompanyService.js";
 import ApplicationBar from "./ui/ApplicationBar.js";
 import DataGrid from "./ui/DataGrid.js";
 import EmployeeForm from "./ui/EmployeeForm.js";
 import { getRandomEmployee } from "./util/random.js";
 import statisticsConfig from "./config/statistics-config.json" assert{type: 'json'}
 import employeesConfig from "./config/employees-config.json" assert{type: 'json'}
+import serviceConfig from "./config/service-config.json" assert{type: 'json'}
 import { range } from "./util/number-functions.js";
 import Spinner from "./ui/Spinner.js";
-const N_EMPLOYEES = 3;
+import CompanyServiceRest from "./service/CompanyServiceRest.js";
+const N_EMPLOYEES = 100;
 //employee model
 //{id: number of 9 digits, name: string, birthYear: number,
 // gender: female | male, salary: number, department: QA, Development, Audit, Accounting, Management}
@@ -17,7 +18,7 @@ const sections = [
     { title: "Add Employee", id: "employees-form-place" },
     { title: "Statistics", id: "statistics-place" }
 ];
-const { minSalary, maxSalary, departments, minYear, maxYear, selectEmployee } = employeesConfig;
+const { minSalary, maxSalary, departments, minYear, maxYear } = employeesConfig;
 const { age, salary } = statisticsConfig;
 const employeeColumns = [
     { field: 'id', headerName: 'ID' },
@@ -25,8 +26,7 @@ const employeeColumns = [
     { field: 'birthYear', headerName: 'Birth Year' },
     { field: 'gender', headerName: 'Gender' },
     { field: 'salary', headerName: 'Salary (ILS)' },
-    { field: 'department', headerName: 'Department' },
-    { field: 'selectEmployee', headerName: 'Select employee' }
+    { field: 'department', headerName: 'Department' }
 
 
 ];
@@ -37,16 +37,28 @@ const statisticsColumns = [
 ]
 //objects
 const menu = new ApplicationBar("menu-place", sections, menuHandler);
-const companyService = new CompanyService();
-const employeeForm = new EmployeeForm("employees-form-place");
-const employeeTable = new DataGrid("employees-table-place", employeeColumns, ['Delete','Rewrite']);
-const ageStatistics = new DataGrid("age-statistics-place", statisticsColumns, []);
-const salaryStatistics = new DataGrid("salary-statistics-place", statisticsColumns, []);
+const companyService = serviceConfig.baseUrl ?new CompanyService(serviceConfig.baseUrl) : new CompanyService();
 const spinner = new Spinner("spinner-place");
+const employeeForm = new EmployeeForm("employees-form-place",employeesConfig);
+employeeForm.fillForm();
+const updateForm = new EmployeeForm("form-update-place", employeesConfig);
+updateForm.addHandler(async (empl) => {
+    const updatedEmpl = await action(companyService.updateEmployee.bind(companyService, empl));
+    employeeTable.updateRow(updatedEmpl);
+   
+    updateForm.hideForm();
+});
+const employeeTable = new DataGrid("employees-table-place", employeeColumns, {title: "List of Employees", width:"80vw"},
+ [{name: 'remove', callbackFn: removeEmployee}, {name: 'update', callbackFn: updateEmployee}]);
+const ageStatistics = new DataGrid("age-statistics-place", statisticsColumns, {title: "Age Distribution", width:"30vw"});
+const salaryStatistics = new DataGrid("salary-statistics-place", statisticsColumns, {title: "Salary Distribution", width:"30vw"});
+
 employeeForm.addHandler(async (employee) => {
+    
     await action(companyService.addEmployee.bind(companyService, employee));
 })
 async function menuHandler(index) {
+    updateForm.hideForm();
     switch (index) {
         case 0: {
             const employees = await action(companyService.getAllEmployees
@@ -75,11 +87,28 @@ async function action(serviceFn) {
     const res = await serviceFn();
     spinner.stop();
     return res;
+    
 }
-function createRandomEmployees() {
-    const promises = range(0, N_EMPLOYEES).map(() =>
-    companyService.addEmployee(getRandomEmployee(minSalary, maxSalary, minYear,
-        maxYear, departments, selectEmployee)));
-return Promise.all(promises);
+async function updateEmployee(id) {
+    const empl = await companyService.getEmployee(id);
+    updateForm.fillForm(empl);
 }
+async function removeEmployee(id) {
+    if(confirm(`Removing Employee?
+    You are going to remove employee with id=${id}`))
+    {
+        await action(companyService.removeEmployee.bind(companyService, id));
+    employeeTable.removeRow(id)
+}
+}
+async function createRandomEmployees() {
+    const employees = await companyService.getAllEmployees();
+    if (employees.length < 5) {
+        for(let i = 0; i < N_EMPLOYEES; i++) {
+            await companyService.addEmployee(getRandomEmployee(minSalary, maxSalary,
+                minYear, maxYear, departments));
+        }
+    }
+    }
+   
 action(createRandomEmployees);

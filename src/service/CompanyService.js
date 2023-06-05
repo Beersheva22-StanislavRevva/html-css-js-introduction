@@ -44,6 +44,24 @@ export default class CompanyService {
     getAllEmployees() {
         return getPromise(Object.values(this.#employees), 1000)
     }
+    getEmployee(id) {
+        return getPromise(this.#employees[id], 20);
+    }
+    removeEmployee(id) {
+
+        delete this.#employees[id];
+        return getPromise({}, 20);
+
+    }
+    updateEmployee(employee) {
+        let res = {};
+        const id = employee.id;
+        if (this.#employees[id]) {
+            this.#employees[id] = employee;
+            res = this.#employees[id];
+        }
+        return getPromise(res, 50);
+    }
 }
 function getPromise(state, timeout) {
     return new Promise(resolve => setTimeout(() => resolve(state), timeout))

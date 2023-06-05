@@ -1,43 +1,87 @@
-import employeesConfig from "../config/employees-config.json" assert{type: 'json'};
 export default class EmployeeForm {
     #dataObj;
     #formElement;
+    #nameElement;
+    #salaryElement;
     #departmentElement;
-    constructor(parentId) {
+    #yearElement;
+    #parentId;
+    #configData
+    constructor(parentId, configData) {
+        this.#parentId = parentId;
         const parentElement = document.getElementById(parentId);
-        this.#dataObj = {name: "name",
-    department: "QA", salary: 5000, birthYear: 2000, checkbox: 1}
-    this.#fillForm(parentElement, parentId);
-    this.#setDepartmentElement();
-    this.#setElements(parentId);
+        parentElement.innerHTML = `<form class="form-control" id="${this.#getId('form')}">
+                                   </form>`;
+        this.#formElement = document.getElementById(this.#getId('form'))
+
+        this.#configData = configData;
+
+
+
     }
-    #fillForm(parentElement, parentId) {
-        parentElement.innerHTML =
-            `<form class="form-control" id="${parentId}-form-id">
+    hideForm() {
+        this.#formElement.innerHTML = '';
+    }
+    #getId(id) {
+        return `${this.#parentId}-${id}-id`;
+    }
+    fillForm(objToUpdate) {
+        this.#dataObj = objToUpdate || {}
+        this.#formElement.innerHTML =
+            `<form class="form-control" id="${this.#getId('form')}">
+            <div class="input-item">
+                <input id="${this.#getId('name')}" name="name" placeholder="enter name"
+                 ${objToUpdate ? `value=${objToUpdate.name}` : ''} required>
+                <select id="${this.#getId('department')}" name="department" 
+                ${objToUpdate ? `value=${objToUpdate.department}` : ''} required>
+                    ${objToUpdate ? '' :
+                `<option value hidden selected disabled>--Select Department--</option>`}
+                </select>    
+
+            </div>
+            <div class="input-item">
+                <input id="${this.#getId('birthYear')}" name="birthYear" type="number" placeholder="enter birth year"
+                ${objToUpdate ? `value=${objToUpdate.birthYear} readOnly` : ''} required>
+                <input id="${this.#getId('salary')}" name="salary" type="number"placeholder="enter salary"
+                ${objToUpdate ? `value=${objToUpdate.salary} ` : ''} required>
+            </div>
             <div class="radio-group">
                 <div class="radio-control">
-                     <input id="female-id" type="radio" name="gender" value="female" required unchecked>
-                    <label for="femail-id">female</label>
-                </div>
+                    <input id="${this.#getId('female')}" type="radio" name="gender"  ${objToUpdate ?
+                `${objToUpdate.gender == "female" ? 'checked' : "unchecked disabled"} ` : 'unchecked'} required value="female" >
+                    <label for="${this.#getId('female')}">female</label>
+                </div>   
                 <div class="radio-control">
-                    <input id = "male-id" type="radio" name="gender" value="male" required unchecked>
-                     <label for="mail-id">male</label>    
-                </div>
-            </div>
-            <input type="text" name = "name" placeholder = "Enter name">
-            <input type="number" name="salary" min = "7000" max = "50000" placeholder = "Enter salary" >
-            <input type="number" name="birthYear" min = "1956" max = "2005" placeholder = "Enter year of birth" >
-            <select id="department" name="department" class="select-contol" required></select>
-            <button type = "submit" >Submit</button>
-            </form>
+                <input id="${this.#getId('male')}" type="radio" name="gender"  ${objToUpdate ?
+                `${objToUpdate.gender == "male" ? 'checked' : "unchecked disabled"} ` : 'unchecked'} required value="male" >
+                    <label for="${this.#getId('male')}">male</label>
+                </div> 
+                 
+            </div>   
+            
+            <button type="submit" >Submit</button>
+        </form>   
+
             `
+        this.#setElements();
+        this.#setOptions();
     }
-    #setElements(parentId) {
-        this.#formElement = document.getElementById(`${parentId}-form-id`)
+    #setOptions() {
+        const { minYear, maxYear, minSalary, maxSalary, departments } = this.#configData
+        this.#departmentElement.innerHTML +=
+            departments.map(d => `<option value=${d}
+             ${this.#dataObj.department == d ? 'selected' : 'uselected'}>${d}</option>`).join('');
+        this.#salaryElement.min = minSalary * 1000;
+        this.#salaryElement.max = maxSalary * 1000;
+        this.#yearElement.min = minYear;
+        this.#yearElement.max = maxYear;
     }
-    #setDepartmentElement () {
-        this.#departmentElement = document.getElementById("department");
-        setOptionItems(this.#departmentElement, employeesConfig.departments, "select department");
+    #setElements() {
+        this.#formElement = document.getElementById(this.#getId('form'));
+        this.#departmentElement = document.getElementById(this.#getId('department'));
+        this.#nameElement = document.getElementById(this.#getId('name'));
+        this.#salaryElement = document.getElementById(this.#getId('salary'));
+        this.#yearElement = document.getElementById(this.#getId('birthYear'));
     }
     addHandler(submitFn) {
         this.#formElement.onsubmit = async (event) => {
@@ -45,16 +89,11 @@ export default class EmployeeForm {
             const formData = new FormData(this.#formElement);
             this.#dataObj.gender = formData.get('gender');
             this.#dataObj.salary = formData.get('salary');
+            this.#dataObj.birthYear = formData.get('birthYear');
             this.#dataObj.name = formData.get('name');
             this.#dataObj.department = formData.get('department');
-            this.#dataObj.checkbox = 'check';                   
-            //check input data here
             await submitFn(this.#dataObj);
             this.#formElement.reset();
         }
     }
-}
-function setOptionItems(element, options, placeholder) {
-    element.innerHTML = `<option value hidden selected>--${placeholder}--</option>`;
-    element.innerHTML += options.map(o => `<option value="${o}">${o}</option>`).join('')
 }
