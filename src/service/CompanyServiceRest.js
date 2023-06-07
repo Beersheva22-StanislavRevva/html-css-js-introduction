@@ -1,8 +1,24 @@
 import { count } from "../util/number-functions.js";
+const POLLING_INTERVAL = 5000;
 export default class CompanyServiceRest {
     #baseUrl;
-    constructor(baseUrl) {
+    #employeesCach;
+    #dataUpdateFn;
+    #intervalId;
+    constructor(baseUrl, dataUpdateFn) {
         this.#baseUrl = baseUrl;
+        
+        this.#dataUpdateFn = dataUpdateFn;
+        this.#intervalId = setInterval(this.#poller.bind(this), POLLING_INTERVAL);
+
+    }
+    async #poller() {
+        const employees = await this.getAllEmployees();
+        if (JSON.stringify(employees) !=
+         JSON.stringify(this.#employeesCach)) {
+            this.#dataUpdateFn(employees);
+            this.#employeesCach = employees;
+         }
     }
     async addEmployee(employee) {
         const response = await fetch(this.#baseUrl, {
@@ -37,8 +53,8 @@ export default class CompanyServiceRest {
         });
         return await response.json();
     }
-    async getStatistics(field, interval) {
-        let array = await this.getAllEmployees();
+    async getStatistics(field, interval, employees) {
+        let array = employees ? employees : await this.getAllEmployees();
         const currentYear = new Date().getFullYear();
         
         if (field == 'birthYear') {

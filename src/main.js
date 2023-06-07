@@ -37,7 +37,7 @@ const statisticsColumns = [
 ]
 //objects
 const menu = new ApplicationBar("menu-place", sections, menuHandler);
-const companyService = serviceConfig.baseUrl ?new CompanyService(serviceConfig.baseUrl) : new CompanyService();
+const companyService = serviceConfig.baseUrl ?new CompanyServiceRest(serviceConfig.baseUrl, dataChangeFn) : new CompanyService();
 const spinner = new Spinner("spinner-place");
 const employeeForm = new EmployeeForm("employees-form-place",employeesConfig);
 employeeForm.fillForm();
@@ -57,6 +57,12 @@ employeeForm.addHandler(async (employee) => {
     
     await action(companyService.addEmployee.bind(companyService, employee));
 })
+function dataChangeFn(employees) {
+    switch(menu.getActiveIndex()) {
+        case 0: employeeTable.fillData(employees); break;
+        case 2: statisticsProcessing(employees);
+    }
+}
 async function menuHandler(index) {
     updateForm.hideForm();
     switch (index) {
@@ -67,14 +73,7 @@ async function menuHandler(index) {
             break;
         }
         case 2: {
-            const ageStatisticsData = await action(companyService.
-                getStatistics.bind(companyService, age.field, age.interval));
-            ageStatistics.fillData(ageStatisticsData);
-
-            const salaryStatisticsData =
-                await action(companyService.getStatistics.bind(companyService,
-                    salary.field, salary.interval));
-            salaryStatistics.fillData(salaryStatisticsData);
+            await statisticsProcessing();
 
             break;
         }
@@ -82,11 +81,28 @@ async function menuHandler(index) {
 
 }
 
+async function statisticsProcessing(employees) {
+    const ageStatisticsData = await action(companyService.
+        getStatistics.bind(companyService, age.field, age.interval, employees));
+    ageStatistics.fillData(ageStatisticsData);
+
+    const salaryStatisticsData = await action(companyService.getStatistics.bind(companyService,
+        salary.field, salary.interval, employees));
+    salaryStatistics.fillData(salaryStatisticsData);
+}
+
 async function action(serviceFn) {
     spinner.start();
-    const res = await serviceFn();
-    spinner.stop();
-    return res;
+    try {
+        const res = await serviceFn();
+        return res;
+    } catch (error) {
+        alert(error.code ? 'servere responded with ' + code : 'server unavailable')
+    } finally{
+        spinner.stop();
+    }
+    
+   
     
 }
 async function updateEmployee(id) {
