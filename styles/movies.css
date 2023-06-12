@@ -37,11 +37,14 @@ header {
     margin-left: 1.2em;
     font-family: Arial;
 }
+
 main {
     display: flex;
     flex-direction: column;
 }
 main.hidden {
+    display: flex;
+    flex-direction: column;
     --thumbnails-img-width: 25vw;
     --thumbnails-img-height: calc(var(--thumbnails-img-width) * 1.5);
     --thumbnails-title-height: calc(var(--thumbnails-img-height) * 0.5)
@@ -70,11 +73,13 @@ main.hidden {
 .details-title {
     background-color: transparent;
     color: rgb(86, 85, 85);
-    font-size: 1.2em;
+    font-size: 1em;
     position: absolute;
-    left: 13vw;
+    left: 0vw;
     bottom: -8vh;
     font-family: Arial;
+    text-align: left;
+
   
 }
 .thumbnails-list {
@@ -95,8 +100,6 @@ main.hidden {
 
 
 .thumbnails-item {
-    border: solid 1px gray;
-    border-radius: 5%;
     max-width: var(--thumbnails-img-width);
     min-width: var(--thumbnails-img-width);
     min-height: calc(var(--thumbnails-img-height) + var(--thumbnails-title-height));
@@ -106,9 +109,6 @@ main.hidden {
 
 }
 .hidden .thumbnails-item {
-    border: solid 1px gray;
-    border-radius: 5%;
-       
     margin-top: 3vh;
     overflow: hidden;
 
@@ -129,9 +129,9 @@ main.hidden {
     display: block;
 }
 .thumbnails-title {
+    margin-top: 2vw;
     display: block;
     text-align: center;
-    background-color: antiquewhite;
     height: 15vw;
 }
 .hidden .details-section{
@@ -146,6 +146,7 @@ main.hidden {
     font-weight: bold;
 
 }
+
 #details-buttons-container{
     display: flex;
     align-items: center;
@@ -159,7 +160,39 @@ main.hidden {
     width:20vw;
     height: 5vw;    
 }
-
+.menu-section{
+    display: flex;
+    flex-direction: row;
+    max-height: 10vw;
+    
+    
+}
+.menu-button {
+    margin-left: 10vw;
+    margin-top: 5vw;
+    width:20vw;
+    height: 5vw;
+}
+#form-id{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5vh;
+    gap: 3vh;
+    font-size: 1.5em;
+}
+#genres{
+    font-size: 0.8em;
+    width: 42vw;
+}
+#submit-button-id {
+    width:20vw;
+    height: 5vw;
+}
+.form-input{
+    width: 40vw;
+    font-size: 0.7em; 
+}
 
 
 @media (min-width: 650px) {
