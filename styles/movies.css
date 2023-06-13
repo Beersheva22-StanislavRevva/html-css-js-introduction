@@ -52,6 +52,9 @@ main.hidden {
 .hidden .thumbnails-title {
     font-size: 1em;
 }
+button:hover{
+    background-color: antiquewhite;
+}
 .details-section {
     margin-top: 7vh;
     display: flex;
@@ -194,7 +197,7 @@ main.hidden {
 
 @media (min-width: 650px) {
     :root {
-        --thumbnails-img-width: 12vw;
+        --thumbnails-img-width: 20vw;
         --thumbnails-img-height: calc(var(--thumbnails-img-width) * 1.5);
         --thumbnails-title-height: calc(var(--thumbnails-img-height) * 0.15)
     }
@@ -214,6 +217,10 @@ main.hidden {
         flex-wrap: wrap;
         flex-direction: row;
         gap: 1vw;
+    }
+
+    .hidden .thumbnails-image{
+        
     }
 
     main {

@@ -1,4 +1,4 @@
-import HomePage from "./ui/homepage.js";
+import InfoPage from "./ui/InfoPage.js";
 import {loadJson} from "./service/jsonService.js"
 import config from "./config/config.json" assert{type: 'json'}
 import Menu from "./ui/Menu.js";
@@ -24,8 +24,8 @@ const menu = new Menu("menu-section-id", sections);
 menuButtonsHandler();
 
 let moviesObj = await getPopularMovieObj (page);
-let homepage = new HomePage();
-let showHomePage = homepage.buildThumbList(moviesObj);
+let infopage = new InfoPage();
+let showInfoPage = infopage.buildThumbList(moviesObj);
 setThumbnails();
 detailsButtonsHandler();
 pagePopularButtonsHandler(page);
@@ -51,8 +51,8 @@ async function popularButtonFn() {
     hideDetails();
     ClearData();
     const moviesObj = await getPopularMovieObj (1);
-    const homepage = new HomePage();
-    const hp1 = homepage.buildThumbList(moviesObj);
+    const infopage = new InfoPage();
+    const hp1 = infopage.buildThumbList(moviesObj);
     setThumbnails();
     detailsButtonsHandler();
     pagePopularButtonsHandler(page);
@@ -62,8 +62,8 @@ async function popularButtonFn() {
 function wishListButtonFn() {
     hideDetails();
     ClearData();
-    const homepage = new HomePage();
-    const hp1 = homepage.buildWishList(wishList);
+    const infopage = new InfoPage();
+    const hp1 = infopage.buildWishList(wishList);
     setThumbnails();
     detailsButtonsHandler();
     pagePopularButtonsHandler(page);
@@ -86,8 +86,8 @@ async function filterButtonFn() {
       let genreId = getGenreIndex(genre, config);
       const thumbnailsList = document.querySelector(".thumbnails-list")
       const moviesObj = await getFilterMovieObj (1, genreId, year);
-      const homepage = new HomePage();
-      const hp1 = homepage.buildThumbList(moviesObj);
+      const infopage = new InfoPage();
+      const hp1 = infopage.buildThumbList(moviesObj);
       setThumbnails();
       detailsButtonsHandler();
       pageFilterButtonsHandler(1, genreId, year);
@@ -117,8 +117,8 @@ async function nextBtnPopularFn(page) {
     ClearData();
     page++;
     const moviesObj = await getPopularMovieObj (page);
-    const homepage = new HomePage();
-    const hp1 = homepage.buildThumbList(moviesObj);
+    const infopage = new InfoPage();
+    const hp1 = infopage.buildThumbList(moviesObj);
     setThumbnails();
     detailsButtonsHandler();
     pagePopularButtonsHandler(page);
@@ -131,8 +131,8 @@ async function prevBtnPopularFn(page) {
         page--;
         ClearData();
         const moviesObj = await getPopularMovieObj (page);
-        const homepage = new HomePage();
-        const hp1 = homepage.buildThumbList(moviesObj);
+        const infopage = new InfoPage();
+        const hp1 = infopage.buildThumbList(moviesObj);
         const nextPageButton = document.getElementById("next-page-button");
         const prevPageButton = document.getElementById("prev-page-button");
         setThumbnails();
@@ -146,8 +146,8 @@ async function nextBtnFilterFn(page, genre, year) {
     ClearData();
     page++;
     const moviesObj = await getFilterMovieObj(page,genre,year);
-    const homepage = new HomePage();
-    const hp1 = homepage.buildThumbList(moviesObj);
+    const infopage = new InfoPage();
+    const hp1 = infopage.buildThumbList(moviesObj);
     setThumbnails();
     detailsButtonsHandler();
     pageFilterButtonsHandler(page, genre);
@@ -158,8 +158,8 @@ async function prevBtnFilterFn(page,genre,year) {
         page--;
         ClearData();
         const moviesObj = await getFilterMovieObj(page,genre,year);
-        const homepage = new HomePage();
-        const hp1 = homepage.buildThumbList(moviesObj);
+        const infopage = new InfoPage();
+        const hp1 = infopage.buildThumbList(moviesObj);
         const nextPageButton = document.getElementById("next-page-button");
         const prevPageButton = document.getElementById("prev-page-button");
         setThumbnails();

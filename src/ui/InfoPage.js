@@ -1,6 +1,6 @@
 import moviesObj1 from '../config/movies-2.json' assert {type: 'json'}
 import config from "../config/config.json" assert{type: 'json'}
-export default class HomePage {
+export default class InfoPage {
     detailsSection;
     detailedImageElement;
     detailedTitleElement;
@@ -47,7 +47,7 @@ async buildThumbList(moviesObj) {
     this.thumbnailsList.innerHTML = "";
     this.thumbnailsList.innerHTML = listItems.join('');
     this.thumbnailsSection.innerHTML +=
-        '<div class="page-navigation"><button class="page-button" id="prev-page-button">Prev page</button><button class="page-button" id="next-page-button">Next page</button><div>';
+        '<div class="page-navigation"><button class="page-button" id="prev-page-button"> << </button><button class="page-button" id="next-page-button">  >> </button><div>';
           
 }
 
@@ -66,7 +66,7 @@ buildWishList(wishList) {
     this.thumbnailsList.innerHTML = "";
     this.thumbnailsList.innerHTML = wishList;
     this.thumbnailsSection.innerHTML +=
-        '<div class="page-navigation"><button class="page-button" id="prev-page-button">Prev page</button><button class="page-button" id="next-page-button">Next page</button><div>';
+        '<div class="page-navigation"><button class="page-button" id="prev-page-button"> << </button><button class="page-button" id="next-page-button"> >> </button><div>';
           
 }
 
