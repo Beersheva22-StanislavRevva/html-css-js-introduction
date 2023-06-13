@@ -33,7 +33,7 @@ export default class HomePage {
                                
     }
 
-async runHomePage(moviesObj) {
+async buildThumbList(moviesObj) {
     let listItems = moviesObj.results.map((movie) => {
         const litItem = `<li class="thumbnails-item">
                     <a href="#" class="thumbnails-anchor" data-details-image="${( config.prefixImgURL + movie.poster_path)}"
@@ -46,6 +46,25 @@ async runHomePage(moviesObj) {
     })
     this.thumbnailsList.innerHTML = "";
     this.thumbnailsList.innerHTML = listItems.join('');
+    this.thumbnailsSection.innerHTML +=
+        '<div class="page-navigation"><button class="page-button" id="prev-page-button">Prev page</button><button class="page-button" id="next-page-button">Next page</button><div>';
+          
+}
+
+buildWishList(wishList) {
+    // let listItems = wishList.map((movie) => {
+    //     const litItem = `<li class="thumbnails-item">
+    //                 <a href="#" class="thumbnails-anchor" data-details-image="${( config.prefixImgURL + movie.poster_path)}"
+    //                 data-details-text="<b>${movie.title} </b> <br> popularity: ${Math.trunc(movie.popularity)} <br> release ${movie.release_date} <br> votes ${movie.vote_average} ">
+    //                     <img class="thumbnails-image" src="${ config.prefixImgURL + movie.poster_path}">
+    //                     <span class = "thumbnails-title">"${movie.title}"</span>
+    //                 </a>
+	// </li>`;
+    //     return litItem;
+    // })
+    
+    this.thumbnailsList.innerHTML = "";
+    this.thumbnailsList.innerHTML = wishList;
     this.thumbnailsSection.innerHTML +=
         '<div class="page-navigation"><button class="page-button" id="prev-page-button">Prev page</button><button class="page-button" id="next-page-button">Next page</button><div>';
           

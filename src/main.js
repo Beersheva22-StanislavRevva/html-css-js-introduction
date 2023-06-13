@@ -10,10 +10,14 @@ const POINT = "is-point";
 let page = 1;
 let genre;
 let year;
+let movie;
+let wishList = new Array();
+let favorList = new Array();
 const sections = [
     { title: "Popular", id: "popular-id" },
     { title: "Filter", id: "filter-id" },
-    { title: "Favorites", id: "favorite-id" }
+    { title: "Wish list", id: "wish-list-id"},
+    { title: "Favorites", id: "favorite-list-id" }
 ];
 async function main (){
 const menu = new Menu("menu-section-id", sections);
@@ -21,8 +25,9 @@ menuButtonsHandler();
 
 let moviesObj = await getPopularMovieObj (page);
 let homepage = new HomePage();
-let showHomePage = homepage.runHomePage(moviesObj);
+let showHomePage = homepage.buildThumbList(moviesObj);
 setThumbnails();
+detailsButtonsHandler();
 pagePopularButtonsHandler(page);
 }
 
@@ -36,10 +41,10 @@ const thumbnailsAncors = document.querySelectorAll(".thumbnails-anchor");
 function menuButtonsHandler() {
 const popularButton = document.getElementById("popular-id");
 const filterButton = document.getElementById("filter-id");
-const favoriteButton = document.getElementById("favorite-id");
+const wishListButton = document.getElementById("wish-list-id");
 popularButton.addEventListener("click",() => popularButtonFn());
 filterButton.addEventListener("click",() => filterButtonFn());
-favoriteButton.addEventListener("click",() => favoriteButtonFn());
+wishListButton.addEventListener("click",() => wishListButtonFn());
 }
 
 async function popularButtonFn() {
@@ -47,11 +52,21 @@ async function popularButtonFn() {
     ClearData();
     const moviesObj = await getPopularMovieObj (1);
     const homepage = new HomePage();
-    const hp1 = homepage.runHomePage(moviesObj);
+    const hp1 = homepage.buildThumbList(moviesObj);
     setThumbnails();
     detailsButtonsHandler();
     pagePopularButtonsHandler(page);
     
+}
+
+function wishListButtonFn() {
+    hideDetails();
+    ClearData();
+    const homepage = new HomePage();
+    const hp1 = homepage.buildWishList(wishList);
+    setThumbnails();
+    detailsButtonsHandler();
+    pagePopularButtonsHandler(page);
 }
 
 async function filterButtonFn() {
@@ -72,7 +87,7 @@ async function filterButtonFn() {
       const thumbnailsList = document.querySelector(".thumbnails-list")
       const moviesObj = await getFilterMovieObj (1, genreId, year);
       const homepage = new HomePage();
-      const hp1 = homepage.runHomePage(moviesObj);
+      const hp1 = homepage.buildThumbList(moviesObj);
       setThumbnails();
       detailsButtonsHandler();
       pageFilterButtonsHandler(1, genreId, year);
@@ -103,21 +118,28 @@ async function nextBtnPopularFn(page) {
     page++;
     const moviesObj = await getPopularMovieObj (page);
     const homepage = new HomePage();
-    const hp1 = homepage.runHomePage(moviesObj);
+    const hp1 = homepage.buildThumbList(moviesObj);
+    setThumbnails();
+    detailsButtonsHandler();
     pagePopularButtonsHandler(page);
 }
 
 async function prevBtnPopularFn(page) {
+    const nextPageButton = document.getElementById("next-page-button");
+    const prevPageButton = document.getElementById("prev-page-button");
     if(page > 1) {
         page--;
         ClearData();
         const moviesObj = await getPopularMovieObj (page);
         const homepage = new HomePage();
-        const hp1 = homepage.runHomePage(moviesObj);
+        const hp1 = homepage.buildThumbList(moviesObj);
         const nextPageButton = document.getElementById("next-page-button");
         const prevPageButton = document.getElementById("prev-page-button");
+        setThumbnails();
+        detailsButtonsHandler();
         pagePopularButtonsHandler(page);
-    }
+    } else { prevPageButton.setAttribute('disabled','');
+        }
 }   
 
 async function nextBtnFilterFn(page, genre, year) {
@@ -125,7 +147,9 @@ async function nextBtnFilterFn(page, genre, year) {
     page++;
     const moviesObj = await getFilterMovieObj(page,genre,year);
     const homepage = new HomePage();
-    const hp1 = homepage.runHomePage(moviesObj);
+    const hp1 = homepage.buildThumbList(moviesObj);
+    setThumbnails();
+    detailsButtonsHandler();
     pageFilterButtonsHandler(page, genre);
 }
 
@@ -135,11 +159,14 @@ async function prevBtnFilterFn(page,genre,year) {
         ClearData();
         const moviesObj = await getFilterMovieObj(page,genre,year);
         const homepage = new HomePage();
-        const hp1 = homepage.runHomePage(moviesObj);
+        const hp1 = homepage.buildThumbList(moviesObj);
         const nextPageButton = document.getElementById("next-page-button");
         const prevPageButton = document.getElementById("prev-page-button");
+        setThumbnails();
+        detailsButtonsHandler();
         pageFilterButtonsHandler(page, genre, year);
-    }
+    } else {prevPageButton.setAttribute('disabled','');
+        }
 }  
 
 /*Details image*/
@@ -151,16 +178,21 @@ const thumbnailsAncors = document.querySelectorAll(".thumbnails-anchor");
 }
 function setDetails(anchor) {
     const detailedImageElement = document.querySelector(".details-image")
-    showDetails();
+    showDetails(anchor);
     detailedImageElement.src = anchor.getAttribute("data-details-image");
     const detailedTitleElement = document.querySelector(".details-title");
     detailedTitleElement.innerHTML = anchor.getAttribute("data-details-text");
 }
-function showDetails() {
+function showDetails(anchor) {
+    setMovie(anchor);
     const detailsSection = document.querySelector(".details-section");
     const mainSelection = document.querySelector("main");
     mainSelection.classList.remove(HIDDEN);
     detailsSection.classList.add(POINT);
+    const wlButton = document.getElementById("wl-button");
+    wlButton.disabled =false;
+    const flButton = document.getElementById("fl-button");
+    flButton.disabled =false;
     setTimeout(function () {
         detailsSection.classList.remove(POINT);
     });
@@ -169,15 +201,38 @@ function hideDetails() {
     const mainSelection = document.querySelector("main");
     mainSelection.classList.add(HIDDEN);
 }
+function setMovie(anchor) {
+    movie = `<li class="thumbnails-item">
+    <a href="#" class="thumbnails-anchor" data-details-image="${anchor.getAttribute("data-details-image")}"
+    data-details-text="${anchor.getAttribute("data-details-text")} ">
+        <img class="thumbnails-image" src="${anchor.getAttribute("data-details-image")}">
+        <span class = "thumbnails-title">"${anchor.getAttribute("data-details-text")}"</span>
+    </a>
+</li>`;
+    
+    anchor.cloneNode(true);
+}
+function addToWL() {
+    const wlButton = document.getElementById("wl-button");
+    wlButton.setAttribute('disabled','');
+    wishList.push(movie);
+}
+function addToFL() {
+    const flButton = document.getElementById("fl-button");
+    flButton.setAttribute('disabled','');
+    favorList.push(movie);
+}
+
+
 /*details buttons*/
 
 function detailsButtonsHandler() {
     const xButton = document.getElementById("x-button");
-    //const wlButton = document.getElementById("wl-button");
-    //const flButton = document.getElementById("fl-button");
+    const wlButton = document.getElementById("wl-button");
+    const flButton = document.getElementById("fl-button");
     xButton.addEventListener("click", () => hideDetails());
-    //wlButton.addEventListener("click", () => addToWL());
-    //flButton.addEventListener("click", () => addToFL());
+    wlButton.addEventListener("click", () => addToWL(movie));
+    flButton.addEventListener("click", () => addToFL(movie));
 }
 
 

@@ -139,9 +139,6 @@ main.hidden {
 }
 
 .hide-button {
-    color: gray;
-    border-color: transparent;
-    background-color: transparent;
     font-size: 1em;
     font-weight: bold;
 
@@ -168,7 +165,7 @@ main.hidden {
     
 }
 .menu-button {
-    margin-left: 10vw;
+    margin-left: 4vw;
     margin-top: 5vw;
     width:20vw;
     height: 5vw;
