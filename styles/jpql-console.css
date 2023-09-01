@@ -8,6 +8,8 @@ body {
 .input-group {
     display: flex;
     flex-direction: row;
+    width: "70vw";
+    height: "20vh"
 }
 .show-word {
     width: 50vw;
