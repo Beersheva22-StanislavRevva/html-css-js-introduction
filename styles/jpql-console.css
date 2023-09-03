@@ -37,6 +37,10 @@ body {
 #input-id{
     height: 20vh;
 }
+#input-limit-id {
+    margin-top: 3vh;
+    width: 10vw;
+}
 #go-id {
     height: 7vh;
     width: 15vw;
