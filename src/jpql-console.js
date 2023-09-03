@@ -6,7 +6,7 @@ const inputElementQueryStr = document.getElementById('input-id');
 const inputElementLimit = document.getElementById('input-limit-id');
 const goButtonElement = document.getElementById("go-id");
 const responseField = document.getElementById("response-field");
-const url = 'http://localhost:8080/college';
+const url = 'http://localhost:8080/college/jpql';
 //functions
 async function sendJpqlQuery() {
     const jpqlStr = inputElementQueryStr.value;
@@ -28,9 +28,9 @@ const response = await fetch(url, {
     let res = "incorrect request";
     if(response.ok){
         res = await response.json();
+        inputElementQueryStr.value = '';
     }
     await printResonse(res);
-    inputElementQueryStr.value = '';
     }
 }
 async function printResonse (response) {
